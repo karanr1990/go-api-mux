@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/karanr1990/go-api-mux/router"
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -27,33 +29,6 @@ var courses []Course
 func (c *Course) IsEmpty() bool {
 	//c.CourseId == "" && c.CourseName == ""
 	return c.CourseName == ""
-}
-
-func main() {
-	router := mux.NewRouter()
-	courses = append(courses, Course{CourseId: "100",
-		CourseName:  "React",
-		CoursePrice: 200,
-		Author: &Author{
-			Fullname: "karan",
-			Website:  "javatpoint.com",
-		}})
-	courses = append(courses, Course{CourseId: "200",
-		CourseName:  "JAVA",
-		CoursePrice: 200,
-		Author: &Author{
-			Fullname: "ARJUN",
-			Website:  "javatpoint.com",
-		}})
-	router.HandleFunc("/", serveHome).Methods("GET")
-	router.HandleFunc("/courses", getAllCourses).Methods("GET")
-	router.HandleFunc("/course/{id}", getOneCourse).Methods("GET")
-	router.HandleFunc("/course", createOneCourse).Methods("POST")
-	router.HandleFunc("/course/{id}", updateOneCourse).Methods("PUT")
-	router.HandleFunc("/courses", deleteOneCourse).Methods("DELETE")
-
-	http.ListenAndServe(":4000", router)
-
 }
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
@@ -147,4 +122,37 @@ func deleteOneCourse(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+}
+
+func main() {
+	//router := mux.NewRouter()
+	//courses = append(courses, Course{CourseId: "100",
+	//	CourseName:  "React",
+	//	CoursePrice: 200,
+	//	Author: &Author{
+	//		Fullname: "karan",
+	//		Website:  "javatpoint.com",
+	//	}})
+	//courses = append(courses, Course{CourseId: "200",
+	//	CourseName:  "JAVA",
+	//	CoursePrice: 200,
+	//	Author: &Author{
+	//		Fullname: "ARJUN",
+	//		Website:  "javatpoint.com",
+	//	}})
+	//router.HandleFunc("/", serveHome).Methods("GET")
+	//router.HandleFunc("/courses", getAllCourses).Methods("GET")
+	//router.HandleFunc("/course/{id}", getOneCourse).Methods("GET")
+	//router.HandleFunc("/course", createOneCourse).Methods("POST")
+	//router.HandleFunc("/course/{id}", updateOneCourse).Methods("PUT")
+	//router.HandleFunc("/courses", deleteOneCourse).Methods("DELETE")
+	//
+	//http.ListenAndServe(":4000", router)
+
+	fmt.Println("MongoDb API")
+	r := router.Router()
+
+	fmt.Println("server is getting started...")
+	log.Fatal(http.ListenAndServe(":4000", r))
+	fmt.Println("Listening at port 4000...")
 }
